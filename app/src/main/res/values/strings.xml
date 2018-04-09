@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">JourneyMap</string>
+    <string name="error.title.required">Story title is required</string>
+    <string name="error.story.required">Story is required</string>
+    <string name="message.story.saved">story saved.</string>
+</resources>
