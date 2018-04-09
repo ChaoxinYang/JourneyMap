@@ -24,12 +24,12 @@ public class PlaceStoryRepository {
     };
 
 
-    // Opens the mDatabase to use it
+
     public void open() {
         mDatabase = mDBHelper.getWritableDatabase();
     }
 
-    // Closes the mDatabase when you no longer need it
+
     public void close() {
         mDBHelper.close();
     }

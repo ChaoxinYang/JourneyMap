@@ -30,9 +30,12 @@ public class StoryViewActivity extends AppCompatActivity {
     }
 
     private void initializeView() {
+        //Find the views by id in order to initialize these with the information we get from the
+        //placeStory Object selecet by the cursor.
         storyContent = findViewById(R.id.viewStoryContent);
         storyTitle = findViewById(R.id.viewStoryTitle);
         storyImage = findViewById(R.id.viewStoryImage);
+        //Get the information about the selected placeStory Object en inflate our views with tit.
         placeStory = (PlaceObject) getIntent().getSerializableExtra("placeStory");
         storyContent.setText(placeStory.getmPlaceStory());
         storyTitle.setText(placeStory.getmPlaceName());

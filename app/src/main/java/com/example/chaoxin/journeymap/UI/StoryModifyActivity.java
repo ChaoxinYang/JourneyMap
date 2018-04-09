@@ -46,7 +46,7 @@ public class StoryModifyActivity extends AppCompatActivity {
         inputStory = findViewById(R.id.inputStoryContent);
         imageButton = findViewById(R.id.imageButton);
         imageView = findViewById(R.id.imageView);
-        // Find our FloatingActionButton and tell it to save the homework object when clicked
+        // Find our FloatingActionButton and tell it to save the placeStory object when clicked
         FloatingActionButton fab = findViewById(R.id.fabModify);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,9 +54,9 @@ public class StoryModifyActivity extends AppCompatActivity {
                 PickImage();
             }
         });
-        // Based on the action we will add or update a homework
+        // Based on the action we will add or update a placeStory
         if (Objects.equals(getIntent().getAction(), Intent.ACTION_INSERT)) {
-            // We are adding a new homework
+            // We are adding a new placeStory
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,7 +64,7 @@ public class StoryModifyActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // We are updating an existing homework so start by retrieving it from the intent
+            // We are updating an existing placeStory so start by retrieving it from the intent
             placeStory = (PlaceObject) getIntent().getSerializableExtra("placeStory");
             // Set the values for the views
             inputTitle.setText(placeStory.getmPlaceName());
@@ -113,7 +113,7 @@ public class StoryModifyActivity extends AppCompatActivity {
 
 
     /**
-     * Takes the values from the view and attempts to save a homework entity within the database.
+     * Takes the values from the view and attempts to save a placeStory entity within the database.
      * The title and platform input values are required and will result in an error message when
      * empty.
      */
@@ -141,7 +141,7 @@ public class StoryModifyActivity extends AppCompatActivity {
     }
 
     /**
-     * Takes the values from the view and attempts to update the homework entity within the database.
+     * Takes the values from the view and attempts to update the placeStory entity within the database.
      * The title and platform input values are required and will result in an error message when
      * empty.
      */

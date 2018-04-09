@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.chaoxin.journeymap.R;
 import com.example.chaoxin.journeymap.data.model.PlaceObject;
@@ -31,6 +34,14 @@ public class MainActivity extends AppCompatActivity implements PlaceStoriesAdapt
         mRecyclerView = findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2); //2 cells per row
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(100L);
+        itemAnimator.setRemoveDuration(100L);
+        mRecyclerView.setItemAnimator(itemAnimator);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback());
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mDataSource = new PlaceStoryRepository(this);
         mDataSource.open();
@@ -89,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements PlaceStoriesAdapt
         intent.setAction(Intent.ACTION_EDIT);
         startActivity(intent);
     }
+
     private void viewStory(PlaceObject placeStory) {
         Intent intent = new Intent(this, StoryViewActivity.class);
 
@@ -96,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements PlaceStoriesAdapt
         intent.setAction(Intent.ACTION_EDIT);
         startActivity(intent);
     }
+
     @Override
     public void onPlaceStoryClick(PlaceObject placeStory) {
         fabEdit.setVisibility(View.VISIBLE);
@@ -114,4 +127,31 @@ public class MainActivity extends AppCompatActivity implements PlaceStoriesAdapt
             }
         });
     }
+    private ItemTouchHelper.SimpleCallback itemTouchCallback() {
+        return new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // unused
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Get the id of the game object on which we performed the swipe operation
+                PlaceObject placeStory = ((PlaceStoriesAdapter.PlaceObjectViewHolder) viewHolder).getmPlaceStory();
+                // Delete the game object from our database
+                mDataSource.delete(placeStory.getmId());
+                // Get a new cursor from our database
+                Cursor cursor = mDataSource.findAll();
+                mAdapter.swapCursor(cursor);
+                mAdapter.notifyDataSetChanged();
+                // Show a Toast message to inform the user that the game was deleted, note that we
+                // are calling makeText from within an anonymous class so we have to explicitly tell
+                // it to use GamesActivity.this instead of just this as that points to the anonymous
+                // class
+                Toast.makeText(MainActivity.this, R.string.message_story_deleted, Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
 }
+

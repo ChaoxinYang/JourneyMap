@@ -49,7 +49,7 @@ public class PlaceStoriesAdapter extends RecyclerView.Adapter<PlaceStoriesAdapte
         placeStory.setmPlaceName(cursor.getString(cursor.getColumnIndex(PlaceStoryContract.PlaceStoryEntry.COLUMN_TITLE)));
         placeStory.setmPlaceStory(cursor.getString(cursor.getColumnIndex(PlaceStoryContract.PlaceStoryEntry.COLUMN_STORY)));
         placeStory.setmImagePath(cursor.getString(cursor.getColumnIndex(PlaceStoryContract.PlaceStoryEntry.COLUMN_IMAGEPATH)));
-        // Bind the bject to the view
+        // Bind the object to the view
         holder.bind(placeStory);
     }
 
@@ -69,7 +69,6 @@ public class PlaceStoriesAdapter extends RecyclerView.Adapter<PlaceStoriesAdapte
 
     class PlaceObjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        //{
         private PlaceObject mPlaceStory;
         public TextView placeName;
         public TextView placeStory;
